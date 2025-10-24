@@ -18,9 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       nonstandard: ${{ github.event.inputs.nonstandard }}
-  secrets:
-    GHCR_PUSH_TOKEN:
-      required: false
+    secrets:
+      GHCR_PUSH_TOKEN:
+        required: false
 
     steps:
       - name: dump environment
