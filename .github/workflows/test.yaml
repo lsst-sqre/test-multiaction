@@ -1,0 +1,34 @@
+on:
+  workflow_dispatch:
+    inputs:
+      nonstandard:
+        description: 'Use nonstandard GHCR token'
+        required: false
+        default: 'false'
+  secrets:
+    GHCR_PUSH_TOKEN:
+      required: false
+# We need actions/write if we want to do a GH App, and we need
+# packages/write to push to ghcr.io with GITHUB_TOKEN
+permissions:
+  actions: write
+  contents: read
+  packages: write
+  statuses: read
+
+jobs:
+  login:
+    runs-on: ubuntu-latest
+    env:
+      nonstandard: ${{ github.event.inputs.nonstandard }}
+
+    steps:
+      - name: dump environment
+        run: |
+          env
+
+      - name: login
+        uses: lsst-sqre/multi-repository-login@v1
+        with:
+          images: ${{ env.images }}
+          use-nonstandard-ghcr-token: ${{ env.nonstandard == 'false' && false || true }}
