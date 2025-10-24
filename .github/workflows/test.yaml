@@ -23,10 +23,15 @@ jobs:
       - name: dump environment
         run: |
           env
+          if [ "${nonstandard}" = "false" ]; then
+              echo "Nonstandard is false"
+          else
+              echo "Nonstandard is true"
+          fi
 
       - name: login
         uses: lsst-sqre/multi-repository-login@v1
         with:
           images: ghcr.io/${{ github.repository }}
-          use-nonstandard-ghcr-token: ${{ env.nonstandard == 'false' && false || true }}
-          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+          use-nonstandard-ghcr-token: ${{ github.events.inputs.nonstandard == 'false' && false || true }}
+          GHCR_PUSH_TOKEN: ${{ secrets.GHCR_PUSH_TOKEN }}
