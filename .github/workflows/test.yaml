@@ -5,9 +5,6 @@ on:
         description: 'Use nonstandard GHCR token'
         required: false
         default: 'false'
-  secrets:
-    GHCR_PUSH_TOKEN:
-      required: false
 # We need actions/write if we want to do a GH App, and we need
 # packages/write to push to ghcr.io with GITHUB_TOKEN
 permissions:
@@ -21,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       nonstandard: ${{ github.event.inputs.nonstandard }}
+  secrets:
+    GHCR_PUSH_TOKEN:
+      required: false
 
     steps:
       - name: dump environment
